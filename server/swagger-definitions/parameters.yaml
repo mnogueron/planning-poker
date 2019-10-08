@@ -1,7 +1,7 @@
 parameters:
-  pollId:
-    name: pollId
-    description: Poll's id
+  id:
+    name: id
+    description: Id
     in: path
     required: true
     type: string

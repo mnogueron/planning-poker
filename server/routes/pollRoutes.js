@@ -47,14 +47,14 @@ module.exports.setup = function(router) {
 
   /**
    * @swagger
-   * /poll/{pollId}:
+   * /poll/{id}:
    *    get:
    *      description: Get poll
    *      tags: [Poll]
    *      produces:
    *        - application/json
    *      parameters:
-   *        - $ref: '#/parameters/pollId'
+   *        - $ref: '#/parameters/id'
    *      responses:
    *        200:
    *          description: poll
@@ -75,14 +75,14 @@ module.exports.setup = function(router) {
 
   /**
    * @swagger
-   * /poll/{pollId}/vote:
+   * /poll/{id}/vote:
    *    post:
    *      description: Cast a vote on a poll
    *      tags: [Poll]
    *      produces:
    *        - application/json
    *      parameters:
-   *        - $ref: '#/parameters/pollId'
+   *        - $ref: '#/parameters/id'
    *        - in: body
    *          name: vote form
    *          description: Vote's data
@@ -120,15 +120,48 @@ module.exports.setup = function(router) {
         userId,
       }
     }
-    
+
     votes[vote.id] = vote
 
+    // broadcast the new vote to all clients apart from the creator
     req.wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
+      if (client.readyState === WebSocket.OPEN && client.userId !== userId) {
         client.send(`[New vote]-${JSON.stringify(vote)}`)
       }
     })
 
     res.send(vote)
+  })
+
+  /**
+   * @swagger
+   * /poll/{id}/votes:
+   *    get:
+   *      description: Get poll's votes
+   *      tags: [Poll]
+   *      produces:
+   *        - application/json
+   *      parameters:
+   *        - $ref: '#/parameters/id'
+   *      responses:
+   *        200:
+   *          description: votes
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: array
+   *                item:
+   *                  type: object
+   *                  $ref: '#/definitions/Vote'
+   */
+  router.get('/poll/:id/votes', (req, res) => {
+    const poll = polls[req.params.id]
+    if (!poll) {
+      res.status(404).send('Poll not found')
+      return
+    }
+
+    const votesForPoll = Object.values(votes).filter(vote => vote.pollId === poll.id)
+    res.send(votesForPoll)
   })
 }
