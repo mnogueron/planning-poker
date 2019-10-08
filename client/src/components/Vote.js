@@ -19,7 +19,8 @@ const Vote = (props) => {
         <Avatar>{name[0]}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={`Voted: ${value}`}
+        primary={name}
+        secondary={`Voted: ${value}`}
       />
     </ListItem>
   )

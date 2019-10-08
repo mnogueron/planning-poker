@@ -23,10 +23,12 @@ const PollScene = (props) => {
     <Grid container justify={'center'} className={classes.container}>
       <Grid item xs={12} sm={8} md={4}>
         <Poll
+          id={'id'}
           name={'New poll'}
           description={'New poll description'}
           votes={[
             {
+              id: '12345',
               value: '1',
               user: {
                 name: 'Claude',
