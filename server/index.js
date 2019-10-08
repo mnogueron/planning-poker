@@ -1,5 +1,6 @@
 const express = require('express')
 const http = require('http')
+const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const swaggerSpecs = require('./setupSwagger')
 const ApiRouter = require('./apiRouter')
@@ -18,6 +19,9 @@ app.use(function (req, res, next) {
   req.wss = wss
   return next()
 })
+
+// setup CORS middleware
+app.use(cors())
 
 // setup JSON middleware
 app.use(express.json())

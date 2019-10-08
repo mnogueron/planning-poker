@@ -1,7 +1,27 @@
 const WebSocket = require('ws')
 const uuid = require('uuid/v4')
 
-let polls = {}
+let polls = {
+  ['poll1']: {
+    id: 'poll1',
+    name: 'Test poll 1',
+    description: 'Description for test poll 1',
+    userId: 'user1'
+  },
+  ['poll2']: {
+    id: 'poll2',
+    name: 'Test poll 2',
+    description: 'Description for test poll 2',
+    userId: 'user1'
+  },
+  ['poll3']: {
+    id: 'poll3',
+    name: 'Test poll 3',
+    description: 'Description for test poll 3',
+    userId: 'user1'
+  }
+}
+
 let votes = {}
 
 const getVoteForPollAndUser = (pollId, userId) => {
