@@ -16,6 +16,10 @@ The server is running on port 9000, but can be changed if there is already a pro
 PORT=XXXX yarn start
 ```
 
+### Documentation
+
+The api is documented using Swagger and can be accessed at `localhost:9000/api-docs` when the server is running.
+
 ## Client
 
 The client application is implemented in Javascript and uses React.
