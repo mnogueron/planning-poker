@@ -1,6 +1,7 @@
 export const ADD_POLL = 'ADD_POLL'
 export const ADD_POLLS = 'ADD_POLLS'
-export const SET_VOTE = 'SET_VOTE'
+export const ADD_VOTE = 'ADD_VOTE'
+export const ADD_VOTES = 'ADD_VOTES'
 
 const initialState = {
   polls: {},
@@ -12,19 +13,37 @@ export default (state = initialState, action) => {
     case ADD_POLL:
       return {
         ...state,
-        [action.poll.id]: action.poll,
+        polls: {
+          ...state.polls,
+          [action.poll.id]: action.poll,
+        },
       }
 
     case ADD_POLLS:
       return {
         ...state,
-        ...action.polls.reduce((acc, poll) => ({ ...acc, [poll.id]: poll }), {}),
+        polls: {
+          ...state.polls,
+          ...action.polls.reduce((acc, poll) => ({ ...acc, [poll.id]: poll }), {}),
+        },
       }
 
-    case SET_VOTE:
+    case ADD_VOTE:
       return {
         ...state,
-        [action.vote.id]: action.vote,
+        votes: {
+          ...state.votes,
+          [action.vote.id]: action.vote,
+        },
+      }
+
+    case ADD_VOTES:
+      return {
+        ...state,
+        votes: {
+          ...state.votes,
+          ...action.votes.reduce((acc, vote) => ({...acc, [ vote.id ]: vote}), {}),
+        },
       }
 
     default:

@@ -1,5 +1,5 @@
-import polls from './pollReducer'
+import app from './appReducer'
 
 export default {
-  polls,
+  app,
 }

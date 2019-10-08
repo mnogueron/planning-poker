@@ -1,4 +1,4 @@
-import { ADD_POLL, ADD_POLLS } from '../reducers/appReducer'
+import { ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES } from '../reducers/appReducer'
 
 export const addPoll = (poll) => {
   return {
@@ -11,5 +11,19 @@ export const addPolls = (polls) => {
   return {
     type: ADD_POLLS,
     polls,
+  }
+}
+
+export const addVote = (vote) => {
+  return {
+    type: ADD_VOTE,
+    vote,
+  }
+}
+
+export const addVotes = (votes) => {
+  return {
+    type: ADD_VOTES,
+    votes,
   }
 }
