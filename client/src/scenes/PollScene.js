@@ -24,7 +24,7 @@ const PollScene = (props) => {
       return []
     }
 
-    return Object.values(state.app.votes).filter(({ pollId }) => pollId)
+    return Object.values(state.app.votes).filter(vote => vote.pollId === pollId)
   })
 
   function onVote(event, value) {
