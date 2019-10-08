@@ -1,7 +1,11 @@
 export const ADD_POLL = 'ADD_POLL'
 export const ADD_POLLS = 'ADD_POLLS'
+export const SET_VOTE = 'SET_VOTE'
 
-const initialState = {}
+const initialState = {
+  polls: {},
+  votes: {},
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -15,6 +19,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.polls.reduce((acc, poll) => ({ ...acc, [poll.id]: poll }), {}),
+      }
+
+    case SET_VOTE:
+      return {
+        ...state,
+        [action.vote.id]: action.vote,
       }
 
     default:

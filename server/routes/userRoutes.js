@@ -1,6 +1,5 @@
 const uuid = require('uuid/v4')
-
-const users = {}
+const { setUser, getUser } = require('../data-storage/users')
 
 module.exports.setup = function (router) {
 
@@ -35,7 +34,7 @@ module.exports.setup = function (router) {
       id: uuid(),
       name,
     }
-    users[user.id] = user
+    setUser(user)
     res.send(user)
   })
 
@@ -59,7 +58,7 @@ module.exports.setup = function (router) {
    *                $ref: '#/definitions/User'
    */
   router.get('/user/:id', (req, res) => {
-    const user = users[req.params.id]
+    const user = getUser(req.params.id)
 
     if (!user) {
       res.status(404).send('User not found')

@@ -1,4 +1,4 @@
-import { ADD_POLL, ADD_POLLS } from '../reducers/pollReducer'
+import { ADD_POLL, ADD_POLLS } from '../reducers/appReducer'
 
 export const addPoll = (poll) => {
   return {

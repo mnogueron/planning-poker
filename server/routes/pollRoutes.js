@@ -1,32 +1,8 @@
 const WebSocket = require('ws')
 const uuid = require('uuid/v4')
-
-let polls = {
-  ['poll1']: {
-    id: 'poll1',
-    name: 'Test poll 1',
-    description: 'Description for test poll 1',
-    userId: 'user1'
-  },
-  ['poll2']: {
-    id: 'poll2',
-    name: 'Test poll 2',
-    description: 'Description for test poll 2',
-    userId: 'user1'
-  },
-  ['poll3']: {
-    id: 'poll3',
-    name: 'Test poll 3',
-    description: 'Description for test poll 3',
-    userId: 'user1'
-  }
-}
-
-let votes = {}
-
-const getVoteForPollAndUser = (pollId, userId) => {
-  return Object.values(votes).find(vote => vote.pollId === pollId && vote.userId === userId)
-}
+const { setPoll, getPoll, getPolls } = require('../data-storage/polls')
+const { setVote, getVoteForPollAndUser, getVotesForPoll } = require('../data-storage/votes')
+const { getUser } = require('../data-storage/users')
 
 module.exports.setup = function(router) {
   /**
@@ -61,8 +37,31 @@ module.exports.setup = function(router) {
       name,
       userId,
     }
-    polls[poll.id] = poll
-    res.send(polls[poll.id])
+    setPoll(poll)
+    res.send(poll)
+  })
+
+  /**
+   * @swagger
+   * /polls:
+   *    get:
+   *      description: Get all polls
+   *      tags: [Poll]
+   *      produces:
+   *        - application/json
+   *      responses:
+   *        200:
+   *          description: polls
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: array
+   *                item:
+   *                  type: object
+   *                  $ref: '#/definitions/Poll'
+   */
+  router.get('/polls', (req, res) => {
+    res.send(getPolls())
   })
 
   /**
@@ -85,7 +84,7 @@ module.exports.setup = function(router) {
    *                $ref: '#/definitions/Poll'
    */
   router.get('/poll/:id', (req, res) => {
-    const poll = polls[req.params.id]
+    const poll = getPoll(req.params.id)
     if (!poll) {
       res.status(404).send('Poll not found')
       return
@@ -120,13 +119,19 @@ module.exports.setup = function(router) {
    *                $ref: '#/definitions/Vote'
    */
   router.post('/poll/:id/vote', (req, res) => {
-    const poll = polls[req.params.id]
+    const poll = getPoll(req.params.id)
     if (!poll) {
       res.status(404).send('Poll not found')
       return
     }
 
     const { value, userId } = req.body
+    const user = getUser(userId)
+
+    if (!user) {
+      res.status(400).send('Invalid user')
+      return
+    }
 
     let vote = getVoteForPollAndUser(poll.id, userId)
     if (vote) {
@@ -141,16 +146,20 @@ module.exports.setup = function(router) {
       }
     }
 
-    votes[vote.id] = vote
+    setVote(vote)
 
+    const resVote = {
+      ...vote,
+      user,
+    }
     // broadcast the new vote to all clients apart from the creator
     req.wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN && client.userId !== userId) {
-        client.send(`[New vote]-${JSON.stringify(vote)}`)
+        client.send(`[New vote]-${JSON.stringify(resVote)}`)
       }
     })
 
-    res.send(vote)
+    res.send(resVote)
   })
 
   /**
@@ -175,13 +184,16 @@ module.exports.setup = function(router) {
    *                  $ref: '#/definitions/Vote'
    */
   router.get('/poll/:id/votes', (req, res) => {
-    const poll = polls[req.params.id]
+    const poll = getPoll(req.params.id)
     if (!poll) {
       res.status(404).send('Poll not found')
       return
     }
 
-    const votesForPoll = Object.values(votes).filter(vote => vote.pollId === poll.id)
-    res.send(votesForPoll)
+    const votes = getVotesForPoll(poll.id)
+    res.send(votes.map(vote => ({
+      ...vote,
+      user: getUser(vote.userId),
+    })))
   })
 }
