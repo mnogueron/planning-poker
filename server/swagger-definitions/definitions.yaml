@@ -1,0 +1,47 @@
+definitions:
+  Poll:
+    required:
+      - id
+      - name
+      - userId
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+  Vote:
+    required:
+      - id
+      - pollId
+      - userId
+      - value
+    properties:
+      id:
+        type: string
+      pollId:
+        type: string
+      userId:
+        type: string
+      value:
+        type: string
+
+  PollForm:
+    required:
+      - name
+      - userId
+    properties:
+      name:
+        type: string
+      userId:
+        type: string
+  VoteForm:
+    required:
+      - userId
+      - value
+    properties:
+      userId:
+        type: string
+      value:
+        type: string

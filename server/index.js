@@ -1,10 +1,13 @@
 const express = require('express')
 const http = require('http')
-const app = express()
+const swaggerUi = require('swagger-ui-express')
 const WebSocket = require('ws')
+const swaggerSpecs = require('./setupSwagger')
 const ApiRouter = require('./apiRouter')
 
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
+
+const app = express()
 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
@@ -25,6 +28,7 @@ app.get('/', (req, res) => {
 
 // add api endpoints
 app.use('/api', ApiRouter)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
 wss.on('connection', (ws) => {
   console.log('Client connected')
@@ -33,7 +37,7 @@ wss.on('connection', (ws) => {
 })
 
 // start the server
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`)
 })
 
