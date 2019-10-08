@@ -3,15 +3,15 @@ import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
 import { Provider } from 'react-redux'
 import { initStore } from './store'
+import App from './App'
 
 const store = initStore()
 
 const ProviderWrapper = (props) => {
-  const { children } = props
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        {children}
+        <App />
       </ThemeProvider>
     </Provider>
   )
