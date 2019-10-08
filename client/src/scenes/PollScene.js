@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import Poll from '../components/Poll'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchPoll } from '../actions/pollThunk'
 
 const useStyles = makeStyles({
   container: {
@@ -12,11 +14,24 @@ const useStyles = makeStyles({
 const PollScene = (props) => {
   const { match } = props
   const { pollId } = match.params
+  const dispatch = useDispatch()
   const classes = useStyles(props)
 
+  function onVote(event, value) {
+    // todo handle vote save
+  }
+
   useEffect(() => {
-    // TODO load poll based on pollId
-  }, [pollId])
+    async function fetchData() {
+      try {
+        await dispatch(fetchPoll(pollId))
+      } catch(e) {
+        // TODO HANDLE 404 error
+      }
+    }
+
+    fetchData()
+  }, [dispatch, pollId])
 
   // render poll
   return (
@@ -35,6 +50,8 @@ const PollScene = (props) => {
               }
             }
           ]}
+          onVote={onVote}
+          showVote
         />
       </Grid>
     </Grid>

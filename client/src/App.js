@@ -1,6 +1,5 @@
 import React from 'react'
-import { makeStyles, ThemeProvider } from '@material-ui/styles'
-import theme from './theme'
+import { makeStyles } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Navbar from './components/Navbar'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
@@ -10,16 +9,7 @@ import PollsScene from './scenes/PollsScene'
 
 import logo from './logo.svg'
 import './App.css'
-
-
-const Provider = (props) => {
-  const { children } = props
-  return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
-  )
-}
+import ProviderWrapper from './ProviderWrapper'
 
 const useStyles = makeStyles({
   page: {
@@ -31,7 +21,7 @@ const useStyles = makeStyles({
 const App = (props) => {
   const classes = useStyles(props)
   return (
-    <Provider>
+    <ProviderWrapper>
       <CssBaseline />
       <Navbar/>
       <div className={classes.page}>
@@ -60,7 +50,7 @@ const App = (props) => {
           </Switch>
         </Router>
       </div>
-    </Provider>
+    </ProviderWrapper>
   )
 }
 

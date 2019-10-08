@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import Vote from './Vote'
+import VoteDialog from './VoteDialog'
 
 const useStyles = makeStyles(theme => ({
   voteContainer: {
@@ -16,12 +16,33 @@ const useStyles = makeStyles(theme => ({
   },
   actionsContainer: {
     justifyContent: 'flex-end',
-  }
+  },
+  voteSelect: {
+    width: 200,
+  },
+  menu: {
+    width: 200,
+  },
 }))
 
 const Poll = (props) => {
-  const { className, id, name, description, votes = [], showSeeMore } = props
+  const { className, id, name, description, votes = [], showSeeMore, showVote, onVote } = props
+  const [voteDialogOpen, setVoteDialogOpen] = useState(false)
   const classes = useStyles(props)
+
+  function openVoteDialog() {
+    setVoteDialogOpen(true)
+  }
+
+  function closeVoteDialog() {
+    setVoteDialogOpen(false)
+  }
+
+  function _onVote(event, value) {
+    closeVoteDialog()
+    onVote && onVote(event, value)
+  }
+
   return (
     <Card className={className}>
       <CardContent>
@@ -61,6 +82,20 @@ const Poll = (props) => {
           </CardActions>
         )
       }
+      {
+        showVote && (
+          <CardActions classes={{ root: classes.actionsContainer }}>
+            <Button onClick={openVoteDialog} color="primary">Vote</Button>
+          </CardActions>
+        )
+      }
+
+      <VoteDialog
+        open={voteDialogOpen}
+        onClose={closeVoteDialog}
+        onCancel={closeVoteDialog}
+        onVote={_onVote}
+      />
     </Card>
   )
 }
