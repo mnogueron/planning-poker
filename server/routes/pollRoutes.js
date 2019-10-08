@@ -120,12 +120,12 @@ module.exports.setup = function(router) {
         userId,
       }
     }
-    // link vote to user
+    
     votes[vote.id] = vote
 
     req.wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(vote)
+        client.send(`[New vote]-${JSON.stringify(vote)}`)
       }
     })
 
