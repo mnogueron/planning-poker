@@ -3,7 +3,7 @@ import Poll from '../components/Poll'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPoll } from '../actions/appThunk'
+import { castVote, fetchPoll } from '../actions/appThunk'
 
 const useStyles = makeStyles({
   container: {
@@ -28,7 +28,7 @@ const PollScene = (props) => {
   })
 
   function onVote(event, value) {
-    // todo handle vote save
+    dispatch(castVote(pollId, value))
   }
 
   useEffect(() => {

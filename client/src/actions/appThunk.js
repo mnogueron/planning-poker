@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { addPoll, addPolls, addVotes } from './appActions'
+import { addPoll, addPolls, addVote, addVotes } from './appActions'
 
 export const fetchPoll = (pollId) => {
   return async (dispatch) => {
@@ -20,5 +20,17 @@ export const fetchPolls = () => {
   return async (dispatch) => {
     const result = await axios.get(`http://localhost:9000/api/polls`)
     dispatch(addPolls(result.data))
+  }
+}
+
+export const castVote = (pollId, value) => {
+  return async (dispatch) => {
+    // TODO replace with current user id or token
+    const userId = 'user1'
+    const result = await axios.post(`http://localhost:9000/api/poll/${pollId}/vote`, {
+      value,
+      userId,
+    })
+    dispatch(addVote(result.data))
   }
 }
