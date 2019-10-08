@@ -6,14 +6,19 @@ const uuid = require('uuid/v4')
 let polls = {}
 let votes = {}
 
+const getVoteForPollAndUser = (pollId, userId) => {
+  return Object.values(votes).find(vote => vote.pollId === pollId && vote.userId === userId)
+}
+
 router.post('/poll', (req, res) => {
-  const id = uuid()
-  const { name } = req.body
-  polls[id] = {
-    id,
+  const { name, userId } = req.body
+  const poll = {
+    id: uuid(),
     name,
+    userId,
   }
-  res.send(polls[id])
+  polls[poll.id] = poll
+  res.send(polls[poll.id])
 })
 
 router.get('/poll/:id', (req, res) => {
@@ -25,18 +30,31 @@ router.get('/poll/:id', (req, res) => {
   res.send(poll)
 })
 
-router.post('/poll/:id/cast', (req, res) => {
-  // TODO cast vote here or in another endpoint
+/**
+ * POST request to cast a vote
+ */
+router.post('/poll/:id/vote', (req, res) => {
   const poll = polls[req.params.id]
   if (!poll) {
     res.status(404).send('Poll not found')
     return
   }
 
-  const { vote } = req.body
+  const { value, userId } = req.body
 
+  let vote = getVoteForPollAndUser(poll.id, userId)
+  if (vote) {
+    vote.value = value
+  }
+  else {
+    vote = {
+      id: uuid(),
+      value,
+      userId,
+    }
+  }
   // link vote to user
-  votes[poll.id] = vote
+  votes[vote.id] = vote
 
   req.wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
