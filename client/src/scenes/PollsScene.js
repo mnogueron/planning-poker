@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import Poll from '../components/Poll'
+import { fetchPolls } from '../actions/appThunk'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -14,42 +16,35 @@ const useStyles = makeStyles(theme => ({
 
 const PollsScene = (props) => {
   const classes = useStyles(props)
-  const polls = [
-    {
-      id: 'poll1',
-      name: 'Poll 1',
-      description: 'Description 1',
-      votes: [],
-    },
-    {
-      id: 'poll2',
-      name: 'Poll 2',
-      description: 'Description 2',
-      votes: [{
-        id: '12345',
-        value: 2,
-        user: {
-          name: 'Jean-Charles',
-        }
-      }],
-    }
-  ]
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const polls = useSelector(state => Object.values(state.app.polls))
 
   useEffect(() => {
-    // TODO Load all polls
-  }, [])
+    async function fetchData() {
+      try {
+        setLoading(true)
+        await dispatch(fetchPolls())
+      } catch (e) {
+        // TODO handle error
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [dispatch])
 
   return (
     <Grid container justify={'center'} className={classes.container}>
       <Grid item xs={12} sm={8} md={4}>
         {
-          polls.map(({ id, name, description, votes }) => (
+          polls.map(({ id, name, description }) => (
             <Poll
               key={id}
               id={id}
               name={name}
               description={description}
-              votes={votes}
               className={classes.pollContainer}
               showSeeMore
             />

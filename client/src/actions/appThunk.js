@@ -15,3 +15,10 @@ export const fetchVotes = (pollId) => {
     dispatch(addVotes(result.data))
   }
 }
+
+export const fetchPolls = () => {
+  return async (dispatch) => {
+    const result = await axios.get(`http://localhost:9000/api/polls`)
+    dispatch(addPolls(result.data))
+  }
+}
