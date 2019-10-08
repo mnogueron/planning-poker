@@ -129,6 +129,6 @@ module.exports.setup = function(router) {
       }
     })
 
-    res.status(200).send(vote)
+    res.send(vote)
   })
 }

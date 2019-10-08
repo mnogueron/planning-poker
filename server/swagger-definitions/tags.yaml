@@ -1,3 +1,5 @@
 tags:
   - name: Poll
     description: Poll endpoints
+  - name: User
+    description: User endpoints

@@ -26,6 +26,15 @@ definitions:
         type: string
       value:
         type: string
+  User:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
 
   PollForm:
     required:
@@ -44,4 +53,10 @@ definitions:
       userId:
         type: string
       value:
+        type: string
+  UserForm:
+    required:
+      - name
+    properties:
+      name:
         type: string
