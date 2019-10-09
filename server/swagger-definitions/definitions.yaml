@@ -33,10 +33,13 @@ definitions:
     required:
       - id
       - name
+      - authToken
     properties:
       id:
         type: string
       name:
+        type: string
+      authToken:
         type: string
 
   PollForm:
