@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { castVote, fetchPoll } from '../actions/appThunk'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   container: {
@@ -17,6 +18,7 @@ const PollScene = (props) => {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const classes = useStyles(props)
+  const history = useHistory()
 
   const poll = useSelector(state => state.app.polls[pollId])
   const votes = useSelector(state => {
@@ -39,14 +41,14 @@ const PollScene = (props) => {
         setLoading(true)
         await dispatch(fetchPoll(pollId))
       } catch(e) {
-        // TODO HANDLE 404 error
+        history.replace('/notfound')
       } finally {
         setLoading(false)
       }
     }
 
     fetchData()
-  }, [dispatch, pollId])
+  }, [dispatch, pollId, history])
 
   // render poll
   return (

@@ -35,7 +35,6 @@ const App = (props) => {
     }
 
     if (user) {
-      // TODO correctly link the userId to the socket
       websocket.connect(user.id, dispatch)
     }
 
@@ -70,6 +69,9 @@ const App = (props) => {
                 </a>
               </header>
             </div>
+          </Route>
+          <Route>
+            Not Found
           </Route>
         </Switch>
       </div>

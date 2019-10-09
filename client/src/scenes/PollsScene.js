@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import Poll from '../components/Poll'
 import { fetchPolls } from '../actions/appThunk'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,6 +19,7 @@ const PollsScene = (props) => {
   const classes = useStyles(props)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
+  const history = useHistory()
   const polls = useSelector(state => Object.values(state.app.polls)
     .sort((a, b) => b.timestamp - a.timestamp))
 
@@ -27,7 +29,7 @@ const PollsScene = (props) => {
         setLoading(true)
         await dispatch(fetchPolls())
       } catch (e) {
-        // TODO handle error
+        history.replace('/notfound')
       } finally {
         setLoading(false)
       }
