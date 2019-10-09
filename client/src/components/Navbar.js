@@ -7,10 +7,12 @@ import Button from '@material-ui/core/Button'
 import PollForm from './PollForm'
 import { useDispatch } from 'react-redux'
 import { createPoll } from '../actions/appThunk'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   title: {
     flexGrow: 1,
+    cursor: 'pointer',
   }
 })
 
@@ -18,6 +20,7 @@ const Navbar = (props) => {
   const classes = useStyles(props)
   const [formOpen, setFormOpen] = useState(false)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   function openPollForm() {
     setFormOpen(true)
@@ -27,16 +30,21 @@ const Navbar = (props) => {
     setFormOpen(false)
   }
 
-  function onCreatePoll(e, name, description) {
-    dispatch(createPoll(name, description))
+  function goToHome() {
+    history.push(`/poll`)
+  }
+
+  async function onCreatePoll(e, name, description) {
+    const poll = await dispatch(createPoll(name, description))
     closePollForm()
+    history.push(`/poll/${poll.id}`)
   }
 
   return (
     <React.Fragment>
       <AppBar>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} onClick={goToHome}>
             Planning poker
           </Typography>
           <Button color="inherit" onClick={openPollForm}>Create poll</Button>

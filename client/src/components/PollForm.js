@@ -47,7 +47,7 @@ const PollForm = (props) => {
           onChange={onDescriptionChange}
           margin="normal"
           multiline
-          rowsMax="4"
+          rows="4"
           fullWidth
           required
         />

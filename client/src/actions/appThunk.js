@@ -52,5 +52,6 @@ export const createPoll = (name, description) => {
       userId: user.id,
     })
     dispatch(addPoll(result.data))
+    return result.data
   }
 }
