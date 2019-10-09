@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import Vote from './Vote'
 import VoteDialog from './VoteDialog'
 import * as dateFns from 'date-fns'
+import VoteChart from './VoteChart'
 
 const today = new Date()
 
@@ -80,6 +81,10 @@ const Poll = (props) => {
               <Typography variant="body1" component="h3">
                 Votes
               </Typography>
+
+              <VoteChart
+                votes={votes}
+              />
 
               <List>
                 {

@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/styles'
 
-const pokerCardValue = [ '0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100' ]
+export const pokerCardValue = [ '0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100' ]
 
 const useStyles = makeStyles({
   voteSelect: {
