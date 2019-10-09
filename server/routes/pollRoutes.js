@@ -37,6 +37,7 @@ module.exports.setup = function(router) {
       name,
       description,
       userId,
+      timestamp: new Date().getTime(),
     }
     setPoll(poll)
     res.send(poll)
@@ -137,11 +138,13 @@ module.exports.setup = function(router) {
     let vote = getVoteForPollAndUser(poll.id, userId)
     if (vote) {
       vote.value = value
+      vote.timestamp = new Date().getTime()
     }
     else {
       vote = {
         id: uuid(),
         pollId: poll.id,
+        timestamp: new Date().getTime(),
         value,
         userId,
       }

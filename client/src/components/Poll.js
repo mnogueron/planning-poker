@@ -9,8 +9,18 @@ import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import Vote from './Vote'
 import VoteDialog from './VoteDialog'
+import * as dateFns from 'date-fns'
+
+const today = new Date()
 
 const useStyles = makeStyles(theme => ({
+  titleContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  name: {
+    flex: 1,
+  },
   description: {
     whiteSpace: 'pre-wrap',
   },
@@ -29,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Poll = (props) => {
-  const { className, id, name, description, votes = [], showSeeMore, showVote, onVote } = props
+  const { className, id, name, description, votes = [], timestamp, showSeeMore, showVote, onVote } = props
   const [voteDialogOpen, setVoteDialogOpen] = useState(false)
   const classes = useStyles(props)
 
@@ -46,12 +56,20 @@ const Poll = (props) => {
     onVote && onVote(event, value)
   }
 
+  const formattedDate = dateFns.format(timestamp, dateFns.isSameDay(timestamp, today) ? 'HH:mm' :'HH:mm - dd/MM/yyyy')
+
   return (
     <Card className={className}>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {name}
-        </Typography>
+        <div className={classes.titleContainer}>
+          <Typography gutterBottom variant="h5" component="h2" className={classes.name}>
+            {name}
+          </Typography>
+
+          <Typography variant="body2" color="textSecondary" component="p">
+            {formattedDate}
+          </Typography>
+        </div>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
           {description}
         </Typography>

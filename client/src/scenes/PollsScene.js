@@ -18,7 +18,8 @@ const PollsScene = (props) => {
   const classes = useStyles(props)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  const polls = useSelector(state => Object.values(state.app.polls))
+  const polls = useSelector(state => Object.values(state.app.polls)
+    .sort((a, b) => b.timestamp - a.timestamp))
 
   useEffect(() => {
     async function fetchData() {
@@ -39,12 +40,13 @@ const PollsScene = (props) => {
     <Grid container justify={'center'} className={classes.container}>
       <Grid item xs={12} sm={8} md={4}>
         {
-          polls.map(({ id, name, description }) => (
+          polls.map(({ id, name, description, timestamp }) => (
             <Poll
               key={id}
               id={id}
               name={name}
               description={description}
+              timestamp={timestamp}
               className={classes.pollContainer}
               showSeeMore
             />

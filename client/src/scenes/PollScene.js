@@ -24,7 +24,9 @@ const PollScene = (props) => {
       return []
     }
 
-    return Object.values(state.app.votes).filter(vote => vote.pollId === pollId)
+    return Object.values(state.app.votes)
+      .filter(vote => vote.pollId === pollId)
+      .sort((a, b) => b.timestamp - a.timestamp)
   })
 
   function onVote(event, value) {
@@ -56,6 +58,7 @@ const PollScene = (props) => {
               id={poll.id}
               name={poll.name}
               description={poll.description}
+              timestamp={poll.timestamp}
               votes={votes}
               onVote={onVote}
               showVote
