@@ -7,6 +7,20 @@ const chartOptions = {
   chart: {
     id: 'vote-chart-bar',
   },
+  tooltip: {
+    y: {
+      formatter: function(val) {
+        return val
+      }
+    }
+  },
+  yaxis: {
+    labels: {
+      formatter: function(val) {
+        return val.toFixed(0)
+      }
+    }
+  },
   xaxis: {
     categories,
   },
