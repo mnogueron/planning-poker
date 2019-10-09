@@ -8,6 +8,7 @@ The server is implemented in Javascript, using Node, Express and websockets.
 It can be run on any OS, using Node and Yarn:
 ```shell
 cd server
+yarn install
 yarn start
 ```
 
@@ -35,6 +36,7 @@ The client application is implemented in Javascript and uses React.
 It can be run on any OS, using Node and Yarn:
 ```shell
 cd client
+yarn install
 yarn start
 ```
 
