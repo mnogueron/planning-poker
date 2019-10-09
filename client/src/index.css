@@ -8,7 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root, #root>div {
+html, body, #root {
   height: 100%
 }
 

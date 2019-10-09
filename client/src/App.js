@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   page: {
     // add padding for fixed navbar
     paddingTop: 64,
+    paddingBottom: 64,
   }
 })
 

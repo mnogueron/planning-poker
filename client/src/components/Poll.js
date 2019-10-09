@@ -11,8 +11,10 @@ import Vote from './Vote'
 import VoteDialog from './VoteDialog'
 import * as dateFns from 'date-fns'
 import VoteChart from './VoteChart'
-
-const today = new Date()
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const useStyles = makeStyles(theme => ({
   titleContainer: {
@@ -25,8 +27,14 @@ const useStyles = makeStyles(theme => ({
   description: {
     whiteSpace: 'pre-wrap',
   },
+  expandedPanel: {
+    margin: '0!important',
+  },
   voteContainer: {
     paddingTop: theme.spacing(4)
+  },
+  voteList: {
+    width: '100%',
   },
   actionsContainer: {
     justifyContent: 'flex-end',
@@ -42,6 +50,7 @@ const useStyles = makeStyles(theme => ({
 const Poll = (props) => {
   const { className, id, name, description, votes = [], timestamp, showSeeMore, showVote, onVote } = props
   const [voteDialogOpen, setVoteDialogOpen] = useState(false)
+  const [votePanelExpanded, setVotePanelExpanded] = useState(false)
   const classes = useStyles(props)
 
   function openVoteDialog() {
@@ -57,7 +66,11 @@ const Poll = (props) => {
     onVote && onVote(event, value)
   }
 
-  const formattedDate = dateFns.format(timestamp, dateFns.isSameDay(timestamp, today) ? 'HH:mm' :'HH:mm - dd/MM/yyyy')
+  function handleVotePanelChange(event, isExpanded) {
+    setVotePanelExpanded(isExpanded)
+  }
+
+  const formattedDate = dateFns.format(timestamp, dateFns.isToday(timestamp) ? 'HH:mm' :'HH:mm - dd/MM/yyyy')
 
   return (
     <Card className={className}>
@@ -86,17 +99,28 @@ const Poll = (props) => {
                 votes={votes}
               />
 
-              <List>
-                {
-                  votes.map(({ id, value, user }) => (
-                    <Vote
-                      key={id}
-                      value={value}
-                      user={user}
-                    />
-                  ))
-                }
-              </List>
+              <ExpansionPanel classes={{ expanded: classes.expandedPanel }} expanded={votePanelExpanded} onChange={handleVotePanelChange}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  id="vote-panel-header"
+                >
+                  <Typography>See all votes</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <List className={classes.voteList}>
+                    {
+                      votes.map(({ id, value, timestamp, user }) => (
+                        <Vote
+                          key={id}
+                          value={value}
+                          user={user}
+                          timestamp={timestamp}
+                        />
+                      ))
+                    }
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
             </div>
           )
         }
