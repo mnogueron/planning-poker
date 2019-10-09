@@ -11,6 +11,9 @@ import Vote from './Vote'
 import VoteDialog from './VoteDialog'
 
 const useStyles = makeStyles(theme => ({
+  description: {
+    whiteSpace: 'pre-wrap',
+  },
   voteContainer: {
     paddingTop: theme.spacing(4)
   },
@@ -49,7 +52,7 @@ const Poll = (props) => {
         <Typography gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
           {description}
         </Typography>
 

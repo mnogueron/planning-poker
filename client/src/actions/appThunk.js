@@ -34,3 +34,15 @@ export const castVote = (pollId, value) => {
     dispatch(addVote(result.data))
   }
 }
+
+export const createPoll = (name, description) => {
+  return async (dispatch) => {
+    const userId = 'user1'
+    const result = await axios.post(`http://localhost:9000/api/poll`, {
+      name,
+      description,
+      userId,
+    })
+    dispatch(addPoll(result.data))
+  }
+}
