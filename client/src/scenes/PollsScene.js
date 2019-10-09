@@ -36,7 +36,7 @@ const PollsScene = (props) => {
     }
 
     fetchData()
-  }, [dispatch])
+  }, [dispatch, history])
 
   return (
     <Grid container justify={'center'} className={classes.container}>

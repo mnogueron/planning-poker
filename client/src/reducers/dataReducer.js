@@ -1,7 +1,4 @@
-export const ADD_POLL = 'ADD_POLL'
-export const ADD_POLLS = 'ADD_POLLS'
-export const ADD_VOTE = 'ADD_VOTE'
-export const ADD_VOTES = 'ADD_VOTES'
+import { ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES, LOGOUT } from './actionTypes'
 
 const initialState = {
   polls: {},
@@ -45,6 +42,11 @@ export default (state = initialState, action) => {
           ...state.votes,
           ...action.votes.reduce((acc, vote) => ({...acc, [ vote.id ]: vote}), {}),
         },
+      }
+
+    case LOGOUT:
+      return {
+        ...initialState,
       }
 
     default:

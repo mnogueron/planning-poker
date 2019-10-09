@@ -44,6 +44,3 @@ The client is running on port 3000, but can be changed if there is already a pro
 ```shell
 PORT=XXXX yarn start
 ```
-
-### Limitations
-The client doesn't persist redux data, which means that for each reload the user has to login again.

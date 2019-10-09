@@ -1,4 +1,4 @@
-import { ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES } from '../reducers/dataReducer'
+import { ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES } from '../reducers/actionTypes'
 
 export const addPoll = (poll) => {
   return {

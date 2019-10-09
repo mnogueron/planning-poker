@@ -1,4 +1,4 @@
-export const SET_USER = 'SET_USER'
+import { LOGOUT, SET_USER } from './actionTypes'
 
 const initialState = {
   user: null,
@@ -10,6 +10,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
+      }
+
+    case LOGOUT:
+      return {
+        ...initialState
       }
       
     default:

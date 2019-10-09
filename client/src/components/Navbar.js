@@ -5,9 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import PollForm from './PollForm'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createPoll } from '../actions/dataThunk'
 import { useHistory } from 'react-router-dom'
+import { logout } from '../actions/appActions'
 
 const useStyles = makeStyles({
   title: {
@@ -20,6 +21,7 @@ const Navbar = (props) => {
   const classes = useStyles(props)
   const [formOpen, setFormOpen] = useState(false)
   const dispatch = useDispatch()
+  const isLogged = useSelector(state => Boolean(state.app.user))
   const history = useHistory()
 
   function openPollForm() {
@@ -32,6 +34,10 @@ const Navbar = (props) => {
 
   function goToHome() {
     history.push(`/poll`)
+  }
+
+  function _logout() {
+    dispatch(logout())
   }
 
   async function onCreatePoll(e, name, description) {
@@ -47,7 +53,14 @@ const Navbar = (props) => {
           <Typography variant="h6" className={classes.title} onClick={goToHome}>
             Planning poker
           </Typography>
-          <Button color="inherit" onClick={openPollForm}>Create poll</Button>
+          {
+            isLogged && (
+              <React.Fragment>
+                <Button color="inherit" onClick={openPollForm}>Create poll</Button>
+                <Button color="inherit" onClick={_logout}>Logout</Button>
+              </React.Fragment>
+            )
+          }
         </Toolbar>
       </AppBar>
 
