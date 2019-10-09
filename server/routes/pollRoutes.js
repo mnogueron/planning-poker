@@ -31,10 +31,11 @@ module.exports.setup = function(router) {
    *                $ref: '#/definitions/Poll'
    */
   router.post('/poll', (req, res) => {
-    const { name, userId } = req.body
+    const { name, description, userId } = req.body
     const poll = {
       id: uuid(),
       name,
+      description,
       userId,
     }
     setPoll(poll)
