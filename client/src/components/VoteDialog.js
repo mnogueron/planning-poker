@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 const VoteDialog = (props) => {
   const { onVote, onClose, onCancel, ...restProps } = props
   const classes = useStyles(props)
-  const [value, setValue] = useState(null)
+  const [value, setValue] = useState('')
 
   function onVoteValueChange(event) {
     setValue(event.target.value)
@@ -39,27 +39,27 @@ const VoteDialog = (props) => {
       <DialogContent>
         <DialogContentText>
           To cast a new vote, please select the value for your vote.
-          <TextField
-            id="select-vote"
-            select
-            label="Select"
-            className={classes.voteSelect}
-            value={value}
-            onChange={onVoteValueChange}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            margin="normal"
-          >
-            {pokerCardValue.map(value => (
-              <MenuItem key={value} value={value}>
-                {value}
-              </MenuItem>
-            ))}
-          </TextField>
         </DialogContentText>
+        <TextField
+          id="select-vote"
+          select
+          label="Select"
+          className={classes.voteSelect}
+          value={value}
+          onChange={onVoteValueChange}
+          SelectProps={{
+            MenuProps: {
+              className: classes.menu,
+            },
+          }}
+          margin="normal"
+        >
+          {pokerCardValue.map(value => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+        </TextField>
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel} color="primary">Cancel</Button>
