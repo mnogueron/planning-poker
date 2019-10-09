@@ -3,7 +3,7 @@ import Poll from '../components/Poll'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { castVote, fetchPoll } from '../actions/appThunk'
+import { castVote, fetchPoll } from '../actions/dataThunk'
 import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
@@ -20,13 +20,13 @@ const PollScene = (props) => {
   const classes = useStyles(props)
   const history = useHistory()
 
-  const poll = useSelector(state => state.app.polls[pollId])
+  const poll = useSelector(state => state.data.polls[pollId])
   const votes = useSelector(state => {
     if (!poll) {
       return []
     }
 
-    return Object.values(state.app.votes)
+    return Object.values(state.data.votes)
       .filter(vote => vote.pollId === pollId)
       .sort((a, b) => b.timestamp - a.timestamp)
   })

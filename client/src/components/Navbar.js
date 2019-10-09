@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import PollForm from './PollForm'
 import { useDispatch } from 'react-redux'
-import { createPoll } from '../actions/appThunk'
+import { createPoll } from '../actions/dataThunk'
 import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({

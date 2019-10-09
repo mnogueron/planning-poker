@@ -1,4 +1,4 @@
-import { addVote } from './actions/appActions'
+import { addVote } from './actions/dataActions'
 import { w3cwebsocket as Websocket } from 'websocket'
 
 let ws
