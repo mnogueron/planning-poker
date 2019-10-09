@@ -3,6 +3,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
 import { Provider } from 'react-redux'
 import { initStore } from './store'
+import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App'
 
 const store = initStore()
@@ -11,7 +12,9 @@ const ProviderWrapper = (props) => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </ThemeProvider>
     </Provider>
   )

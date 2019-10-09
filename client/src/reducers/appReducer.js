@@ -2,14 +2,22 @@ export const ADD_POLL = 'ADD_POLL'
 export const ADD_POLLS = 'ADD_POLLS'
 export const ADD_VOTE = 'ADD_VOTE'
 export const ADD_VOTES = 'ADD_VOTES'
+export const SET_USER = 'SET_USER'
 
 const initialState = {
+  user: null,
   polls: {},
   votes: {},
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_USER:
+      return {
+        ...state,
+        user: action.user,
+      }
+
     case ADD_POLL:
       return {
         ...state,

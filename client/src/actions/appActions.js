@@ -1,4 +1,11 @@
-import { ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES } from '../reducers/appReducer'
+import { SET_USER, ADD_POLL, ADD_POLLS, ADD_VOTE, ADD_VOTES } from '../reducers/appReducer'
+
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    user,
+  }
+}
 
 export const addPoll = (poll) => {
   return {
