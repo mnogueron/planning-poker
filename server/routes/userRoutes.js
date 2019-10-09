@@ -32,7 +32,6 @@ module.exports.setup = function (router) {
     const { name } = req.body
     const user = {
       id: uuid(),
-      authToken: uuid(),
       name,
     }
     setUser(user)
